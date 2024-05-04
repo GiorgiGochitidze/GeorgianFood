@@ -22,4 +22,5 @@ nav{
 
 nav p:hover{
     cursor: pointer;
+    color: #FF725E;
 }

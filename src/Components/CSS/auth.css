@@ -1,0 +1,11 @@
+.authform-container{
+    width: 100%;
+    height: auto;
+    margin-top: 130px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+}

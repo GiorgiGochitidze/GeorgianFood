@@ -12,6 +12,8 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
 }
 
 .reasons-card{
@@ -32,7 +34,7 @@
     margin-bottom: 15px;
 }
 
-/* just color red: FF725E */
+/* just color red: #FF725E */
 
 .reasons-card img{
     width: 200px;
