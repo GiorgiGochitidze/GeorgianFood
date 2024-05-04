@@ -1,0 +1,11 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+
+
+body{
+  font-family: 'georgian', sans-serif;
+  overflow-x: hidden;
+  height: 100vh;
+}

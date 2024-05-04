@@ -1,0 +1,22 @@
+.welcome-container {
+  width: 100%;
+  min-height: 500px;
+  height: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.welcome-container > img {
+  width: 400px;
+  background-color: blueviolet;
+  border-radius: 50%;
+  filter: drop-shadow(0 10px 50px blueviolet);
+  margin-right: 50px;
+}
+
+.welcome-text {
+  width: 50%;
+  color: #FF725E;
+  text-shadow: 0 0 50px rgba(255, 114, 94, 0.7);
+}

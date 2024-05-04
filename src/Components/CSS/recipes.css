@@ -1,0 +1,57 @@
+.recipes-container {
+  width: 100%;
+  min-height: 400px;
+  height: auto;
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  flex-direction: column;
+}
+
+.recipes-list {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.recipes-card {
+  width: 500px;
+  height: 350px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+}
+
+.bookmark-btn{
+    width: 30px;
+    height: 30px;
+    background-color: white;
+    border-radius: 50%;
+    border: 0;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.2s all ease-in-out;
+}
+
+.bookmark-btn:hover{
+    background-color: red;
+    cursor: pointer;
+    color: white;
+}
+
+.recipes-card h1,
+.recipes-card p{
+    margin-left: 20px;
+    max-width: 90%;
+    text-align: justify;
+    margin-bottom: 10px;
+}

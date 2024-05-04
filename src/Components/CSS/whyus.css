@@ -1,0 +1,44 @@
+.whyus-container{
+    width: 100%;
+    min-height: 400px;
+    height: auto;
+    background-color: #FFF3DE;
+    padding-block: 20px;
+}
+
+.reasons-container{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.reasons-card{
+    width: 300px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.reasons-card p{
+    color: gray
+}
+
+.reasons-card h1{
+    margin-bottom: 15px;
+}
+
+/* just color red: FF725E */
+
+.reasons-card img{
+    width: 200px;
+    margin-bottom: 20px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
