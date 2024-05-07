@@ -9,10 +9,12 @@ const jwt = require("jsonwebtoken");
 const Post = require("./Posts");
 require("dotenv").config();
 const cloudinary = require("cloudinary").v2;
+const multer = require("multer");
 
 app.use(express.json());
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
+app.use("/uploads", express.static("uploads"));
 
 // function to generate random string for secret key in jwt token
 const generateRandomString = (length) => {
@@ -29,10 +31,31 @@ const generateRandomString = (length) => {
 const secretKey = generateRandomString(64);
 
 const generateToken = (user) => {
-  return jwt.sign({ username: user.username }, secretKey, {
+  return jwt.sign({ username: user.username, userType: user.userType }, secretKey, {
     expiresIn: "2h",
   });
 };
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "uploads/");
+  },
+  filename: function (req, file, cb) {
+    cb(null, `${Date.now()}_${file.originalname}`);
+  },
+});
+
+const upload = multer({ storage: storage });
+
+const cloudinarySecret = process.env.CLOUDINARY_SECRET_KEY;
+const cloudinaryKey = process.env.CLOUDINARY_API_KEY;
+
+cloudinary.config({
+  cloud_name: "dlqlkwvk2",
+  api_key: cloudinaryKey,
+  api_secret: cloudinarySecret,
+});
+
 
 mongoose
   .connect("mongodb://localhost:27017/GeorgianFoods")
@@ -65,6 +88,8 @@ app.post("/register", (req, res) => {
         username,
         gmail,
         password: hash,
+        userType: 'member',
+        saves: []
       });
 
       newUser
@@ -103,6 +128,7 @@ app.post("/login", (req, res) => {
           if (isMatch) {
             const token = generateToken({
               username: user.username,
+              userType: user.userType
             });
             res
               .status(200)
@@ -125,23 +151,73 @@ app.post("/login", (req, res) => {
     });
 });
 
-const cloudinarySecret = process.env.CLOUDINARY_SECRET_KEY;
-const cloudinaryKey = process.env.CLOUDINARY_API_KEY;
+app.post("/uploadPosts", upload.single("image"), (req, res) => {
+  const { title, description, date } = req.body;
 
-cloudinary.config({
-  cloud_name: "dkjabjayn",
-  api_key: cloudinaryKey,
-  api_secret: cloudinarySecret,
+  const imagePathInUploads = req.file ? req.file.path : null;
+
+
+  // Upload the image to Cloudinary
+  cloudinary.uploader.upload(
+    imagePathInUploads,
+    { folder: "upload_recipes" },
+    (error, result) => {
+      if (error) {
+        console.error("Error uploading image to Cloudinary:", error);
+        return res.status(500).send("Internal Server Error");
+      }
+
+      const newPost = new Post({
+        img: result.secure_url,
+        description: description,
+        title: title,
+        date: date,
+      });
+
+      newPost
+        .save()
+        .then(() => {
+          console.log("New Recipe added successfully");
+          res.status(200).json({ message: "ახალი რეცეპტი წარმატებულად დაემატა" });
+        })
+        .catch((err) => {
+          console.error("Error adding new post:", err);
+          res.status(500).json({ message: "Internal Server Error" });
+        });
+    }
+  );
 });
 
 app.post("/loadPosts", async (req, res) => {
   try {
     const posts = await Post.find({});
-    console.log(posts);
+    // console.log(posts);
     res.status(200).json(posts);
   } catch (error) {
     console.error("Error loading posts:", error);
     res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+app.post("/deletePost", async (req, res) => {
+  const postId = req.body.postId; // Assuming you're sending the postId from the frontend
+
+  try {
+    // Delete the post from MongoDB
+    const deletedPost = await Post.findByIdAndDelete(postId);
+
+    if (!deletedPost) {
+      return res.status(404).json({ message: "Post not found" });
+    }
+
+    // Delete the image from Cloudinary
+    const publicId = deletedPost.img.split("/").pop().split(".")[0]; // Extract publicId from Cloudinary URL
+    await cloudinary.uploader.destroy(publicId);
+
+    res.status(200).json({ message: "Post deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting post:", error);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 });
 

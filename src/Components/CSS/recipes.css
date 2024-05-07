@@ -22,11 +22,12 @@
 
 .recipes-card {
   width: 500px;
-  height: 350px;
+  height: 320px;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   border-radius: 20px;
   overflow: hidden;
   position: relative;
+  margin-inline: 20px;
 }
 
 .bookmark-btn{
@@ -37,7 +38,7 @@
     border: 0;
     position: absolute;
     top: 10px;
-    right: 20px;
+    right: 60px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -56,4 +57,29 @@
     max-width: 90%;
     text-align: justify;
     margin-bottom: 10px;
+}
+
+
+.recipes-card img{
+  max-height: 230px;
+  width: 100%;
+}
+
+.del-btn{
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 0;
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  background-color: white;
+  transition: 0.2s all ease-in-out;
+}
+
+.del-btn:hover{
+  cursor: pointer;
+  box-shadow: 0 7px 29px red;
+  background-color: red;
+  color: white;
 }

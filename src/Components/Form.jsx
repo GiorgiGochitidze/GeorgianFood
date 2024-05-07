@@ -25,7 +25,7 @@ const Form = ({message, handleSubmit, buttonName, username, gmail, password, set
                 თქვენი პაროლი
                 <input  value={password} onChange={(e) => setPassword(e.target.value)} type={passType} id='password' name='password' placeholder='თქვენი პაროლი' />
                 <button onClick={togglePasswordVisibility} className='just'>
-                    {passType === 'password' ? <FaEye /> : <FaEyeSlash />}
+                    {passType === 'password' ? <FaEyeSlash /> : <FaEye />}
                 </button>
             </label>
 
